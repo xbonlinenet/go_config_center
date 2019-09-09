@@ -167,6 +167,12 @@ func (c *ConfigModule) GetStringMap(key string) map[string]interface{} {
 	return c.cfg.GetStringMap(key)
 }
 
+func (c *ConfigModule) GetAll() map[string]interface{} {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	return c.cfg.AllSettings()
+}
+
 // func (c *ConfigModule) SetOnChange(watch func(data []byte)) {
 // 	buf := make([]byte, len(c.buf))
 // 	copy(buf, c.buf)
