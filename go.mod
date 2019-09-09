@@ -1,4 +1,4 @@
-module coding.xbonline.net/server/go_config_center
+module github.com/xbonlinenet/go_config_center
 
 go 1.12
 
