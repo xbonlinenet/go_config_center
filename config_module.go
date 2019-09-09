@@ -117,6 +117,13 @@ func (c *ConfigModule) onModuleChange(data []byte) {
 // 	defer c.lock.RUnlock()
 // 	return c.cfg
 // }
+
+func (c *ConfigModule) Get(key string) interface{} {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	return c.cfg.Get(key)
+}
+
 func (c *ConfigModule) GetInt(key string) int {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
@@ -156,6 +163,7 @@ func (c *ConfigModule) GetStringMapString(key string) map[string]string {
 func (c *ConfigModule) GetStringMap(key string) map[string]interface{} {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
+
 	return c.cfg.GetStringMap(key)
 }
 
