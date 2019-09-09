@@ -17,6 +17,7 @@ var DEFAULT_LOCAL_CACHE_DIR = "./config_center"
 type ConfigModule struct {
 	cfgFile       string
 	buf           []byte
+	data 		  []byte
 	cfg           *viper.Viper
 	lock          sync.RWMutex
 	localCacheDir string
@@ -58,7 +59,9 @@ func NewConfigModule(modulePath string, localCacheDir string, configType string)
 func (c *ConfigModule) loadFromBuf(data []byte) error {
 	log.Println("data:", string(data))
 	c.buf = make([]byte, len(data))
+	c.data = make([]byte, len(data))
 	copy(c.buf, data)
+	copy(c.data, data)
 	c.lock.Lock()
 	cfg := viper.New()
 	cfg.SetConfigType(c.configType)
@@ -89,7 +92,10 @@ func (c *ConfigModule) loadFromLocalCache() error {
 	if err != nil {
 		return err
 	}
-	c.buf = data
+	c.buf = make([]byte, len(data))
+	c.data = make([]byte, len(data))
+	copy(c.buf, data)
+	copy(c.data, data)
 	c.lock.Lock()
 	cfg := viper.New()
 	cfg.SetConfigType(c.configType)
@@ -176,8 +182,8 @@ func (c *ConfigModule) GetAll() map[string]interface{} {
 func (c *ConfigModule) Raw() []byte {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
-	dest := make([]byte, 0, len(c.buf))
-	copy(dest, c.buf)
+	dest := make([]byte, 0, len(c.data))
+	copy(dest, c.data)
 	return dest
 }
 
