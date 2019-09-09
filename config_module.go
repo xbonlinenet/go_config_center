@@ -173,6 +173,14 @@ func (c *ConfigModule) GetAll() map[string]interface{} {
 	return c.cfg.AllSettings()
 }
 
+func (c *ConfigModule) Raw() []byte {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	dest := make([]byte, 0, len(c.buf))
+	copy(dest, c.buf)
+	return dest
+}
+
 // func (c *ConfigModule) SetOnChange(watch func(data []byte)) {
 // 	buf := make([]byte, len(c.buf))
 // 	copy(buf, c.buf)
