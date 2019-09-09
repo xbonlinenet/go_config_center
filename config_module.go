@@ -182,7 +182,7 @@ func (c *ConfigModule) GetAll() map[string]interface{} {
 func (c *ConfigModule) Raw() []byte {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
-	dest := make([]byte, 0, len(c.data))
+	dest := make([]byte, len(c.data))
 	copy(dest, c.data)
 	return dest
 }
