@@ -10,7 +10,7 @@ import (
 //go test -v -run TestA
 func TestA(t *testing.T) {
 	center := NewConfigCenter("", nil, "/usr/local/vntop/config_center/local_cache", "json")
-	module := center.GetModule("/gateway/test.json")
+	module := center.GetModule("/gateway/test.yaml")
 	fmt.Println("============module================")
 	fmt.Println("--------------------a:", module.GetInt("a"))
 	fmt.Println("--------------------b:", module.GetInt("b"))

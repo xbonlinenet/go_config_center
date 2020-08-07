@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -50,6 +51,10 @@ func NewConfigModule(modulePath string, localCacheDir string, configType string)
 	} else {
 		c.configType = configType
 	}
+	suffix := path.Ext(modulePath)[1:]
+	if suffix != "" {
+		c.configType = suffix
+	} //直接使用后缀
 	c.cfg.SetConfigType(c.configType)
 	return c
 }
