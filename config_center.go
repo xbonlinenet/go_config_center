@@ -78,14 +78,15 @@ func (c *ConfigCenter) GetModule(modulePath string) *ConfigModule {
 			log.Println(err)
 			//alter
 		}
-		if data != nil && len(data) > 0 {
+		if len(data) > 0 {
 			err := module.loadFromBuf(data)
 			if err != nil {
 				log.Println(err)
 			}
 		}
+		go c.zk.ZkWatch(zkPath, module.onModuleChange)
 	}
-	if data == nil || len(data) == 0 {
+	if len(data) == 0 {
 		err := module.loadFromLocalCache()
 		if err != nil {
 			log.Println(err)
@@ -93,8 +94,5 @@ func (c *ConfigCenter) GetModule(modulePath string) *ConfigModule {
 	}
 	c.CfgModules[modulePath] = module
 
-	if c.zk != nil {
-		go c.zk.ZkWatch(zkPath, module.onModuleChange)
-	}
 	return module
 }
