@@ -30,7 +30,7 @@ func NewConfigCenter(zkRoot string, zkServers []string, localCacheDir string, co
 	} else {
 		center.zkRoot = zkRoot
 	}
-	if zkServers == nil || len(zkServers) == 0 {
+	if len(zkServers) == 0 {
 		center.zkServers = []string{"127.0.0.1:2181"}
 	} else {
 		center.zkServers = zkServers
