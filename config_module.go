@@ -59,9 +59,9 @@ func NewConfigModule(modulePath string, localCacheDir string, configType string)
 	return c
 }
 
-//存盘
+// 存盘
 func (c *ConfigModule) loadFromBuf(data []byte) error {
-	log.Println("data:", string(data))
+	// log.Println("data:", string(data))
 	c.buf = make([]byte, len(data))
 	copy(c.buf, data)
 	c.lock.Lock()
@@ -88,7 +88,7 @@ func (c *ConfigModule) loadFromBuf(data []byte) error {
 	return nil
 }
 
-//读到buf
+// 读到buf
 func (c *ConfigModule) loadFromLocalCache() error {
 	data, err := ioutil.ReadFile(c.cfgFile)
 	if err != nil {
@@ -110,7 +110,7 @@ func (c *ConfigModule) loadFromLocalCache() error {
 	return nil
 }
 
-//watch回调
+// watch回调
 func (c *ConfigModule) onModuleChange(data []byte) {
 	err := c.loadFromBuf(data)
 	if err != nil {
